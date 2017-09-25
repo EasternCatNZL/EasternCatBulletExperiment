@@ -79,7 +79,8 @@ public class Demarcation : MonoBehaviour {
                     Quaternion currentRotation = new Quaternion();
                     currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
                     //create a bullet clone, and orient it using the current angle
-                    GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
+                    GameObject bulletClone = bulletObject;
+                    //GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
 
                     //get distance to travel forward for setup based on layer
                     float distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
@@ -87,17 +88,20 @@ public class Demarcation : MonoBehaviour {
                     //set up first bullet variables
                     bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, bulletAngleChange);
 
-                    //create second shot
-                    //get the current angle as a quaternion
-                    currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
-                    //create a bullet clone, and orient it using the current angle
-                    GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
+                    //spawn the bullet
+                    Instantiate(bulletClone, transform.position, currentRotation);
 
-                    //get distance to travel forward for setup based on layer
-                    distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
+                    ////create second shot
+                    ////get the current angle as a quaternion
+                    //currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
+                    ////create a bullet clone, and orient it using the current angle
+                    //GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
 
-                    //set up second bullet variables <- angle change negative of first
-                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange);
+                    ////get distance to travel forward for setup based on layer
+                    //distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
+
+                    ////set up second bullet variables <- angle change negative of first
+                    //bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange);
 
                     //change the angle between shots
                     angle += angleChangePerShot;

@@ -25,7 +25,8 @@ public class SetupStraightBullet : MonoBehaviour {
     void Start () {
         myRigid = GetComponent<Rigidbody>();
         startTime = Time.time;
-	}
+        SetUp();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,6 +50,7 @@ public class SetupStraightBullet : MonoBehaviour {
     private void SetUp()
     {
         isStarting = false;
+
         transform.DOMove(setupDestination, setupTime, false);
         StartCoroutine(BeginMove());
     }

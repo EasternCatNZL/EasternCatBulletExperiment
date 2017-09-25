@@ -39,7 +39,7 @@ public class CircularSpray : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine(BulletSprayRoutine());
+
     }
 	
 	// Update is called once per frame
@@ -48,18 +48,20 @@ public class CircularSpray : MonoBehaviour {
         {
             angleChangePerShot = minimumAngle;
         }
-	}
+        if (Time.time > timeLastSprayFired + timeBetweenSprays)
+        {
+            StartCoroutine(BulletSprayRoutine());
+        }
+    }
 
     //coroutine version of bullet spray
     private IEnumerator BulletSprayRoutine()
     {
-        while (true)
-        {
-            ////set time of last spray to now
-            //timeLastSprayFired = Time.time;
+        //set time of last spray to now
+        timeLastSprayFired = Time.time;
 
-            //for the number of shots in a spray
-            for (int i = 0; i < numBulletsPerSpray; i++)
+        //for the number of shots in a spray
+        for (int i = 0; i < numBulletsPerSpray; i++)
             {
                 //create a shot
                 //get the current angle as a quaternion
@@ -81,5 +83,5 @@ public class CircularSpray : MonoBehaviour {
             currentAngle += angleChangePerSpray * rotationDirection;
         }
         
-    }
+    
 }

@@ -32,16 +32,20 @@ public class AllRoundSpray : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        if (Time.time > timeLastSprayFired + timeBetweenSprays)
+        {
+            StartCoroutine(BulletSprayRoutine());
+        }
+    }
 
     //bullet firing coroutine
     private IEnumerator BulletSprayRoutine()
     {
-        while (true)
-        {
-            //get a random starting angle
-            float angle = Random.Range(0.0f, 360.0f);
+        //set time of last spray to now
+        timeLastSprayFired = Time.time;
+
+        //get a random starting angle
+        float angle = Random.Range(0.0f, 360.0f);
             //reset the angle total
             currentAngleTotal = 0.0f;
 
@@ -65,5 +69,5 @@ public class AllRoundSpray : MonoBehaviour {
             yield return new WaitForSecondsRealtime(timeBetweenSprays);
         }
         
-    }
+    
 }

@@ -38,80 +38,22 @@ public class DoubleCircularSpray : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        StartCoroutine(BulletSprayRoutine());
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //FireBullets();
-        //ControlVars();
-    }
-
-    //Handles the shooting of bullets
-    private void FireBullets()
-    {
-        //check if can fire bullet
-        if (canShootBullet && Time.time > timeBetweenShots + timeLastShotFired)
-        {
-            //get the current angle as a quaternion
-            Quaternion currentRotation = new Quaternion();
-            currentRotation.eulerAngles = new Vector3(0.0f, currentAngle, 0.0f);
-            //print(currentRotation.eulerAngles);
-            //create a bullet clone, and orient it using the current angle
-            GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
-
-            //create second bullet using 180 difference in angle
-            currentRotation.eulerAngles = new Vector3(0.0f, currentAngle + 180.0f, 0.0f);
-            //print(currentRotation.eulerAngles);
-            //create a bullet clone, and orient it using the current angle
-            GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
-
-            //set last shot fired time to now
-            timeLastShotFired = Time.time;
-            //increment the number of shots fired
-            shotsFiredInSpray++;
-            //increase the angle slightly
-            currentAngle += angleChangePerShot * rotationDirection;
-
-            print(shotsFiredInSpray);
-        }
-    }
-
-    //Handles control vars each frame
-    private void ControlVars()
-    {
-        //check if currently can fire bullets
-        if (canShootBullet)
-        {
-            //check if all bullets in a spray have been fired
-            if (shotsFiredInSpray == numBulletsPerSpray)
-            {
-                //stop more bullets from firing
-                canShootBullet = false;
-                //increase angle in prep of next spray
-                currentAngle += angleChangePerSpray * rotationDirection;
-            }
-        }
-
-
-        //check if time since last spray began has elasped
         if (Time.time > timeLastSprayFired + timeBetweenSprays)
         {
-            //reset shots fired in spray to 0
-            shotsFiredInSpray = 0;
-            //set can shoot back to true
-            canShootBullet = true;
-            //set time of last spray beggining to now
-            timeLastSprayFired = Time.time;
+            StartCoroutine(BulletSprayRoutine());
         }
     }
 
     //coroutine version of bullet spray
     private IEnumerator BulletSprayRoutine()
     {
-        while (true)
-        {
+
             //set time of last spray to now
             timeLastSprayFired = Time.time;
 
@@ -143,5 +85,5 @@ public class DoubleCircularSpray : MonoBehaviour {
             currentAngle += angleChangePerSpray * rotationDirection;
         }
 
-    }
+    
 }
