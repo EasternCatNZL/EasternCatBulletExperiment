@@ -386,7 +386,8 @@ MonoBehaviour:
   bulletStepDistanceIncrease: 0.5
   bulletSetupTime: 0.5
   bulletStartMoveTimeDelay: 0.2
-  bulletAngleChange: 90
+  bulletAngleChange: 40
+  patternBulletSpeed: 2
   angleChangePerShot: 20
   rotationDirection: 1
 --- !u!1 &1609528165

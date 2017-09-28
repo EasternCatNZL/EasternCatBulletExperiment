@@ -29,6 +29,8 @@ public class Demarcation : MonoBehaviour {
     public float bulletStartMoveTimeDelay = 0.2f;
     [Tooltip("Bullet angle change")]
     public float bulletAngleChange = 90.0f;
+    [Tooltip("Pattern bullet set speed")]
+    public float patternBulletSpeed = 2.0f;
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
@@ -64,7 +66,8 @@ public class Demarcation : MonoBehaviour {
         for (int i = 0; i < numBulletWaves; i++)
         {
             //get a random starting angle
-            float angle = Random.Range(0.0f, 360.0f);
+            //float angle = Random.Range(0.0f, 360.0f);
+            float angle = 0.0f;
             //for each wave
             for (int j = 0; j < numBulletLayers; j++)
             {
@@ -85,23 +88,23 @@ public class Demarcation : MonoBehaviour {
                     //get distance to travel forward for setup based on layer
                     float distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
 
-                    //set up first bullet variables
-                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, bulletAngleChange);
-
                     //spawn the bullet
                     Instantiate(bulletClone, transform.position, currentRotation);
 
-                    ////create second shot
-                    ////get the current angle as a quaternion
-                    //currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
-                    ////create a bullet clone, and orient it using the current angle
-                    //GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
+                    //set up first bullet variables
+                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, bulletAngleChange, patternBulletSpeed);
 
-                    ////get distance to travel forward for setup based on layer
-                    //distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
+                    //create second shot
+                    //get the current angle as a quaternion
+                    currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
+                    //create a bullet clone, and orient it using the current angle
+                    GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
 
-                    ////set up second bullet variables <- angle change negative of first
-                    //bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange);
+                    //get distance to travel forward for setup based on layer
+                    distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
+
+                    //set up second bullet variables <- angle change negative of first
+                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange, patternBulletSpeed);
 
                     //change the angle between shots
                     angle += angleChangePerShot;
@@ -109,7 +112,6 @@ public class Demarcation : MonoBehaviour {
                     currentAngleTotal += angleChangePerShot;
                 }
             }
-
             //wait between waves
             yield return new WaitForSecondsRealtime(timeBetweenWaves);
         }

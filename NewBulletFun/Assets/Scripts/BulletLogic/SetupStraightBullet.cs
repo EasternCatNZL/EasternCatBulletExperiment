@@ -5,18 +5,18 @@ using DG.Tweening;
 
 public class SetupStraightBullet : MonoBehaviour {
 
-    public float travelSpeed;
+    public float travelSpeed = 2.0f;
 
     //set up vars
-    private Vector3 setupDestination = new Vector3(0, 0, 0);
-    private float setupDestinationDistance = 0.0f;
-    private float setupTime = 0.0f;
-    private float startDelay = 0.0f;
-    private float angleChange = 0.0f;
+    public Vector3 setupDestination = new Vector3(0, 0, 0);
+    public float setupDestinationDistance = 0.0f;
+    public float setupTime = 0.0f;
+    public float startDelay = 0.0f;
+    public float angleChange = 0.0f;
 
     //control vars
     private float startTime = 0.0f;
-    private bool isStarting = false;
+    public bool isStarting = false;
     private bool isReady = false;
 
     private Rigidbody myRigid;
@@ -25,7 +25,7 @@ public class SetupStraightBullet : MonoBehaviour {
     void Start () {
         myRigid = GetComponent<Rigidbody>();
         startTime = Time.time;
-        SetUp();
+        //SetUp();
     }
 	
 	// Update is called once per frame
@@ -37,12 +37,13 @@ public class SetupStraightBullet : MonoBehaviour {
 	}
 
     //sets up vars for bullet behaviour
-    public void SetupVars(float dist , float setTime, float delay, float angle)
+    public void SetupVars(float dist , float setTime, float delay, float angle, float speed)
     {
         setupDestinationDistance = dist;
         setupTime = setTime;
         startDelay = delay;
-        angle = angleChange;
+        angleChange = angle;
+        travelSpeed = speed;
         isStarting = true;
     }
 
@@ -50,8 +51,9 @@ public class SetupStraightBullet : MonoBehaviour {
     private void SetUp()
     {
         isStarting = false;
-
+        setupDestination = transform.position + (transform.forward * setupDestinationDistance);
         transform.DOMove(setupDestination, setupTime, false);
+        //transform.DOMove(new Vector3(2, 1, 3), 2, false);
         StartCoroutine(BeginMove());
     }
 

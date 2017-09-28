@@ -93,6 +93,7 @@
     <Compile Include="Assets\Demigiant\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Demigiant\DOTween\Examples\Sequences.cs" />
     <Compile Include="Assets\Scripts\BulletCleaner.cs" />
+    <Compile Include="Assets\Scripts\BulletLogic\BulletBank.cs" />
     <Compile Include="Assets\Scripts\BulletLogic\RegularStraightBullet.cs" />
     <Compile Include="Assets\Scripts\BulletLogic\SetupStraightBullet.cs" />
     <Compile Include="Assets\Scripts\PatternScripts\FancyStuffAKAImitated\EoSD\Demarcation.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Assets\Scripts\PatternScripts\Fixed\AllRoundSpray.cs" />
     <Compile Include="Assets\Scripts\PatternScripts\Fixed\CircularSpray.cs" />
     <Compile Include="Assets\Scripts\PatternScripts\Fixed\DoubleCircularSpray.cs" />
+    <Compile Include="Assets\Scripts\PatternScripts\Fixed\LayeredProngSpray.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Demigiant\DOTween\DOTween.XML" />
