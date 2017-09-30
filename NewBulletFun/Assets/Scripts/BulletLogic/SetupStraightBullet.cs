@@ -17,7 +17,10 @@ public class SetupStraightBullet : MonoBehaviour {
     //control vars
     private float startTime = 0.0f;
     public bool isStarting = false;
-    private bool isReady = false;
+    private bool isActive = false;
+
+    //script ref
+    private BulletBank bulletBank;
 
     private Rigidbody myRigid;
 
@@ -62,5 +65,28 @@ public class SetupStraightBullet : MonoBehaviour {
         yield return new WaitForSecondsRealtime(startDelay);
         transform.Rotate(transform.up, angleChange);
         myRigid.velocity = transform.forward * travelSpeed;
+    }
+
+    //ref func
+    public void SetBulletBank(BulletBank bank)
+    {
+        bulletBank = bank;
+    }
+
+    //deactivate func
+    private void Deactivate()
+    {
+        //set active to false
+        isActive = false;
+        //return to queue
+        bulletBank.ReturnSetupStraightBullet(gameObject);
+        transform.position = bulletBank.transform.position;
+    }
+
+    //collision = deactivate
+    private void OnCollisionEnter(Collision collision)
+    {
+        //any collision
+        Deactivate();
     }
 }

@@ -11,6 +11,8 @@ public class AllRoundSpray : MonoBehaviour {
     [Header("Bullet Vars")]
     [Tooltip("Bullet Object")]
     public GameObject bulletObject;
+    [Tooltip("Speed of bullet")]
+    public float bulletSpeed = 2.0f;
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
@@ -19,6 +21,12 @@ public class AllRoundSpray : MonoBehaviour {
     [Range(-1, 1)]
     public float rotationDirection = 1.0f;
 
+    [Header("Tags")]
+    public string bulletBankTag = "Bullet Bank";
+
+    //script refs
+    private BulletBank bank;
+
     //control vars
     private float timeLastSprayFired = 0.0f; //the time last spray began
     private float currentAngleTotal = 0.0f; //the current angle the bullet is angled at in regards to owner
@@ -26,8 +34,8 @@ public class AllRoundSpray : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //check if angle change per shot can cleanly divide by 360
-
-        StartCoroutine(BulletSprayRoutine());
+        bank = GameObject.FindGameObjectWithTag(bulletBankTag).GetComponent<BulletBank>();
+        //StartCoroutine(BulletSprayRoutine());
     }
 	
 	// Update is called once per frame
@@ -49,15 +57,24 @@ public class AllRoundSpray : MonoBehaviour {
             //reset the angle total
             currentAngleTotal = 0.0f;
 
-            //while current angle total not reached 360, keep spawning bullets
-            while(currentAngleTotal < 360.0f)
+
+        //while current angle total not reached 360, keep spawning bullets
+        while (currentAngleTotal < 360.0f)
             {
                 //create a shot
                 //get the current angle as a quaternion
                 Quaternion currentRotation = new Quaternion();
                 currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
-                //create a bullet clone, and orient it using the current angle
-                GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
+            //create a bullet clone, and orient it using the current angle
+            //GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
+            //get a bullet from the bank
+            GameObject bullet = bank.GetRegularStraightBullet();
+            //set the bullets position to this pos
+            bullet.transform.position = transform.position;
+            //set the bullet's rotation to current rotation
+            bullet.transform.rotation = currentRotation;
+            //setup the bullet and fire
+            bullet.GetComponent<RegularStraightBullet>().SetupVars(bulletSpeed);
 
                 //change the angle between shots
                 angle += angleChangePerShot;
