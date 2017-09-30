@@ -5,12 +5,8 @@ using UnityEngine;
 public class DoubleCircularSpray : MonoBehaviour {
 
     [Header("Timing Vars")]
-    [Tooltip("Time Between Shots")]
-    public float timeBetweenShots = 0.02f;
     [Tooltip("Time Between Sprays")]
     public float timeBetweenSprays = 1.5f;
-    //[Tooltip("Shot Recharge Time")]
-    //public float timeShotRecharge = 3.0f;
 
     [Header("Bullet Vars")]
     [Tooltip("Bullet Object")]
@@ -28,12 +24,9 @@ public class DoubleCircularSpray : MonoBehaviour {
     public float rotationDirection = 1.0f;
 
     //control vars
-    private int shotsFiredInSpray = 0; //the number of shots fired in the current spray
-    private float timeLastShotFired = 0.0f; //the time last single shot was fired
     private float timeLastSprayFired = 0.0f; //the time last spray began
     private float currentAngle = 0.0f; //the current angle the bullet is angled at in regards to owner
-    private bool canShootBullet = false; //checks whether bullet can be fired
-                                         //private bool canShootSpray = false; //checks whether spray can begin
+
 
     // Use this for initialization
     void Start()

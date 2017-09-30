@@ -9,10 +9,12 @@ public class AdjustableCircularSpray : MonoBehaviour {
     public float timeBetweenSprays = 1.5f;
 
     [Header("Bullet Vars")]
-    [Tooltip("Bullet Object")]
-    public GameObject bulletObject;
+    [Tooltip("Num of sprays")]
+    public int numSprays = 3;
     [Tooltip("Number of bullets in each spray")]
     public int numBulletsPerSpray = 5;
+    [Tooltip("Speed of bullet")]
+    public float bulletSpeed = 2.0f;
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
@@ -25,15 +27,22 @@ public class AdjustableCircularSpray : MonoBehaviour {
     [Tooltip("Minimum angle")]
     public float minimumAngle = 4.0f;
 
+    [Header("Tags")]
+    public string bulletBankTag = "Bullet Bank";
+
+    //script refs
+    private BulletBank bank;
+
     //control vars
     private float timeLastSprayFired = 0.0f; //the time last spray began
     private float currentAngle = 0.0f; //the current angle the bullet is angled at in regards to owner
     private bool canShootBullet = false; //checks whether bullet can be fired
+    private float angleChangeBetweenSprays = 0.0f; //the difference in angle between sprays
 
     // Use this for initialization
     void Start () {
-		
-	}
+        bank = GameObject.FindGameObjectWithTag(bulletBankTag).GetComponent<BulletBank>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -47,27 +56,42 @@ public class AdjustableCircularSpray : MonoBehaviour {
         }
     }
 
+    //get the angle change between sprays based on number of specified sprays
+    private void GetAngleBetweenSprays()
+    {
+        angleChangeBetweenSprays = 360 / numSprays;
+    }
+
     //coroutine version of bullet spray
     private IEnumerator BulletSprayRoutine()
     {
+        GetAngleBetweenSprays();
+
         //set time of last spray to now
         timeLastSprayFired = Time.time;
 
         //for the number of shots in a spray
         for (int i = 0; i < numBulletsPerSpray; i++)
         {
-            //create a shot
-            //get the current angle as a quaternion
-            Quaternion currentRotation = new Quaternion();
-            currentRotation.eulerAngles = new Vector3(0.0f, currentAngle, 0.0f);
-            //create a bullet clone, and orient it using the current angle
-            GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
-
+            //for the number of sprays per call
+            for (int j = 0; j < numSprays; j++)
+            {
+                //get an altered angle based on which spray
+                float alteredAngle = currentAngle + (angleChangeBetweenSprays * j);
+                //get a rotation
+                Quaternion alteredRotation = new Quaternion();
+                alteredRotation.eulerAngles = new Vector3(0.0f, alteredAngle, 0.0f);
+                //get a bullet from the bank
+                GameObject bullet = bank.GetRegularStraightBullet();
+                //set the bullets position to this pos
+                bullet.transform.position = transform.position;
+                //set the bullet's rotation to current rotation
+                bullet.transform.rotation = alteredRotation;
+                //setup the bullet and fire
+                bullet.GetComponent<RegularStraightBullet>().SetupVars(bulletSpeed);
+            }
             //change the angle between shots
             currentAngle += angleChangePerShot * rotationDirection;
-
-            //wait on self on next bullet delay
-            //yield return new WaitForSecondsRealtime(timeBetweenShots);
         }
         //wait for the next spray
         yield return new WaitForSecondsRealtime(timeBetweenSprays);

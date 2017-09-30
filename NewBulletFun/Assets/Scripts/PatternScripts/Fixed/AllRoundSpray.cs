@@ -9,8 +9,6 @@ public class AllRoundSpray : MonoBehaviour {
     public float timeBetweenSprays = 1.5f;
 
     [Header("Bullet Vars")]
-    [Tooltip("Bullet Object")]
-    public GameObject bulletObject;
     [Tooltip("Speed of bullet")]
     public float bulletSpeed = 2.0f;
 
@@ -65,8 +63,6 @@ public class AllRoundSpray : MonoBehaviour {
                 //get the current angle as a quaternion
                 Quaternion currentRotation = new Quaternion();
                 currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
-            //create a bullet clone, and orient it using the current angle
-            //GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
             //get a bullet from the bank
             GameObject bullet = bank.GetRegularStraightBullet();
             //set the bullets position to this pos

@@ -39,13 +39,19 @@ public class Demarcation : MonoBehaviour {
     [Range(-1, 1)]
     public float rotationDirection = 1.0f;
 
+    [Header("Tags")]
+    public string bulletBankTag = "Bullet Bank";
+
+    //script refs
+    private BulletBank bank;
+
     //control vars
     private float timeLastSprayFired = 0.0f; //the time last spray began
     private float currentAngleTotal = 0.0f; //the current angle the bullet is angled at in regards to owner
 
     // Use this for initialization
     void Start () {
-        //StartCoroutine(BulletSprayRoutine());
+        bank = GameObject.FindGameObjectWithTag(bulletBankTag).GetComponent<BulletBank>();
     }
 	
 	// Update is called once per frame
@@ -82,14 +88,15 @@ public class Demarcation : MonoBehaviour {
                     Quaternion currentRotation = new Quaternion();
                     currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
                     //create a bullet clone, and orient it using the current angle
-                    GameObject bulletClone = bulletObject;
-                    //GameObject bulletClone = Instantiate(bulletObject, transform.position, currentRotation);
+                    GameObject bulletClone = bank.GetSetupStraightBullet();
 
                     //get distance to travel forward for setup based on layer
                     float distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
 
-                    //spawn the bullet
-                    Instantiate(bulletClone, transform.position, currentRotation);
+                    //set the bullets position to this pos
+                    bulletClone.transform.position = transform.position;
+                    //set the bullet's rotation to current rotation
+                    bulletClone.transform.rotation = currentRotation;
 
                     //set up first bullet variables
                     bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, bulletAngleChange, patternBulletSpeed);
@@ -97,14 +104,23 @@ public class Demarcation : MonoBehaviour {
                     //create second shot
                     //get the current angle as a quaternion
                     currentRotation.eulerAngles = new Vector3(0.0f, angle, 0.0f);
+
                     //create a bullet clone, and orient it using the current angle
-                    GameObject bulletCloneTwo = Instantiate(bulletObject, transform.position, currentRotation);
+                    GameObject bulletClone2 = bank.GetSetupStraightBullet();
+
+                    //get distance to travel forward for setup based on layer
+                    distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
+
+                    //set the bullets position to this pos
+                    bulletClone2.transform.position = transform.position;
+                    //set the bullet's rotation to current rotation
+                    bulletClone2.transform.rotation = currentRotation;
 
                     //get distance to travel forward for setup based on layer
                     distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
 
                     //set up second bullet variables <- angle change negative of first
-                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange, patternBulletSpeed);
+                    bulletClone2.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange, patternBulletSpeed);
 
                     //change the angle between shots
                     angle += angleChangePerShot;

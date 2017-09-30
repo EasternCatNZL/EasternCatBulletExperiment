@@ -36,6 +36,12 @@ public class NightBird : MonoBehaviour {
     [Tooltip("Slight angle alteration")]
     public float slightAngleAlteration = 0.7f;
 
+    [Header("Tags")]
+    public string bulletBankTag = "Bullet Bank";
+
+    //script refs
+    private BulletBank bank;
+
     //control vars
     private int currentRotationDireciton = 1; //current rotation of spray
     private float timeLastSprayFired = 0.0f; //the time last spray began
@@ -43,8 +49,7 @@ public class NightBird : MonoBehaviour {
     
     // Use this for initialization
     void Start () {
-        //StartCoroutine(BulletSprayRoutine());
-        //print(transform.rotation.y);
+        bank = GameObject.FindGameObjectWithTag(bulletBankTag).GetComponent<BulletBank>();
     }
 	
 	// Update is called once per frame
@@ -80,7 +85,11 @@ public class NightBird : MonoBehaviour {
                     Quaternion newRotation = new Quaternion();
                     newRotation.eulerAngles = new Vector3(0.0f, transform.eulerAngles.y + angle, 0.0f);
                     //create a bullet clone, and orient it using the current angle
-                    GameObject bulletClone = Instantiate(bulletObject, transform.position, newRotation);
+                    GameObject bulletClone = bank.GetRegularStraightBullet();
+                    //set the bullets position to this pos
+                    bulletClone.transform.position = transform.position;
+                    //set the bullet's rotation to current rotation
+                    bulletClone.transform.rotation = newRotation;
                     //change the material of clone based on direction
                     if (currentRotationDireciton == 1)
                     {
@@ -94,7 +103,8 @@ public class NightBird : MonoBehaviour {
                     //change angle between shots
                     angle -= angleChangePerShot * currentRotationDireciton;
 
-                    bulletClone.GetComponent<RegularStraightBullet>().travelSpeed = speed;
+                    //setup the bullet and fire
+                    bulletClone.GetComponent<RegularStraightBullet>().SetupVars(speed);
                 }
 
                 
