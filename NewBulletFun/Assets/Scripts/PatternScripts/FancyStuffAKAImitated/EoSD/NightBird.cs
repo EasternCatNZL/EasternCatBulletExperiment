@@ -8,11 +8,9 @@ public class NightBird : MonoBehaviour {
     [Tooltip("Time Between Sprays")]
     public float timeBetweenSprays = 5.0f;
     [Tooltip("Time between layers")]
-    public float timeBetweenLayers = 0.8f;
+    public float timeBetweenLayers = 0.5f;
 
     [Header("Bullet Vars")]
-    [Tooltip("Bullet Object")]
-    public GameObject bulletObject;
     [Tooltip("Number of sprays")]
     public int numSpray = 5;
     [Tooltip("Number of bullet layers")]

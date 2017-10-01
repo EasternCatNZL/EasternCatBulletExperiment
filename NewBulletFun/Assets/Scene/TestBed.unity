@@ -446,6 +446,7 @@ GameObject:
   - component: {fileID: 1096942855}
   - component: {fileID: 1096942856}
   - component: {fileID: 1096942851}
+  - component: {fileID: 1096942853}
   m_Layer: 0
   m_Name: BulletTester
   m_TagString: Untagged
@@ -486,6 +487,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1096942853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1096942850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83d4b2f274286647864c45e5fff1bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenSprays: 2
+  numBulletLayers: 5
+  numArcs: 2
+  firstLayerBulletSpeed: 1
+  layerSpeedIncrementValue: 0.5
+  startingAngle: 0
+  angleChangePerShot: 4
+  bulletBankTag: Bullet Bank
 --- !u!114 &1096942854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,8 +535,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeBetweenSprays: 4
   timeBetweenLayers: 0.5
-  bulletObject: {fileID: 1075581074167602, guid: 69c8798acc1839b4cb86ef976dd1dbbc,
-    type: 2}
   numSpray: 5
   numBulletLayers: 3
   numBulletsPerLayer: 20
@@ -536,7 +554,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096942850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cadf34767745854bb3d7068703aae78, type: 3}
   m_Name: 
