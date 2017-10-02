@@ -20,8 +20,10 @@ public class LayeredProngSpray : MonoBehaviour {
 
     [Header("Angle Control")]
     [Tooltip("Starting angle")]
+    [Range(0.0f, 360.0f)]
     public float startingAngle = 0.0f;
     [Tooltip("Angle change per shot in spray")]
+    [Range(0.0f, 360.0f)]
     public float angleChangePerShot = 4.0f;
 
     [Header("Tags")]

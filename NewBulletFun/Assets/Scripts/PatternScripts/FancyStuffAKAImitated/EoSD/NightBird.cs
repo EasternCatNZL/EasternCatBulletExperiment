@@ -28,10 +28,13 @@ public class NightBird : MonoBehaviour {
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
+    [Range(0.0f, 360.0f)]
     public float angleChangePerShot = 4.0f;
     [Tooltip("Starting angle in releation to self")]
+    [Range(0.0f, 360.0f)]
     public float startingAngle = 40.0f;
     [Tooltip("Slight angle alteration")]
+    [Range(0.0f, 360.0f)]
     public float slightAngleAlteration = 0.7f;
 
     [Header("Tags")]

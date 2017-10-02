@@ -18,13 +18,16 @@ public class AdjustableCircularSpray : MonoBehaviour {
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
+    [Range(0.0f, 360.0f)]
     public float angleChangePerShot = 1.0f;
     [Tooltip("Angle change per spray")]
+    [Range(0.0f, 360.0f)]
     public float angleChangePerSpray = 20.0f;
     [Tooltip("Positive or negative (1 or -1)")]
     [Range(-1, 1)]
     public float rotationDirection = 1.0f;
     [Tooltip("Minimum angle")]
+    [Range(0.0f, 360.0f)]
     public float minimumAngle = 4.0f;
 
     [Header("Tags")]

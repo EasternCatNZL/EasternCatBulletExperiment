@@ -11,8 +11,6 @@ public class Demarcation : MonoBehaviour {
     public float timeBetweenWaves = 0.8f;
 
     [Header("Bullet Vars")]
-    [Tooltip("Bullet Object")]
-    public GameObject bulletObject;
     [Tooltip("Number of bullet layers")]
     public int numBulletLayers = 2;
     [Tooltip("Number of bullet waves")]
@@ -34,6 +32,7 @@ public class Demarcation : MonoBehaviour {
 
     [Header("Angle Control")]
     [Tooltip("Angle change per shot in spray")]
+    [Range(0.0f, 360.0f)]
     public float angleChangePerShot = 1.0f;
     [Tooltip("Positive or negative (1 or -1)")]
     [Range(-1, 1)]
@@ -98,8 +97,11 @@ public class Demarcation : MonoBehaviour {
                     //set the bullet's rotation to current rotation
                     bulletClone.transform.rotation = currentRotation;
 
+                    //get angle change
+                    float setupRotationChange = transform.eulerAngles.y + bulletAngleChange;
+
                     //set up first bullet variables
-                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, bulletAngleChange, patternBulletSpeed);
+                    bulletClone.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, setupRotationChange, patternBulletSpeed);
 
                     //create second shot
                     //get the current angle as a quaternion
@@ -119,8 +121,11 @@ public class Demarcation : MonoBehaviour {
                     //get distance to travel forward for setup based on layer
                     distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * j);
 
+                    //get angle change
+                    setupRotationChange = transform.eulerAngles.y - bulletAngleChange;
+
                     //set up second bullet variables <- angle change negative of first
-                    bulletClone2.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, -bulletAngleChange, patternBulletSpeed);
+                    bulletClone2.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, setupRotationChange, patternBulletSpeed);
 
                     //change the angle between shots
                     angle += angleChangePerShot;

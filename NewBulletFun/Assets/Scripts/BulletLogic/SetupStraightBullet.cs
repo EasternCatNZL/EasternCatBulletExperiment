@@ -62,8 +62,14 @@ public class SetupStraightBullet : MonoBehaviour {
 
     private IEnumerator BeginMove()
     {
+        //waits for setup to finish
         yield return new WaitForSecondsRealtime(startDelay);
-        transform.Rotate(transform.up, angleChange);
+        //gets a new rotation
+        Quaternion newRotation = new Quaternion();
+        //alters rotation based own rotation + given rotation
+        newRotation.eulerAngles = new Vector3(0.0f, transform.rotation.eulerAngles.y + angleChange, 0.0f);
+        transform.rotation = newRotation;
+        //start moving
         myRigid.velocity = transform.forward * travelSpeed;
     }
 
