@@ -28,6 +28,7 @@ public class WallSpray : MonoBehaviour {
 
     [Header("Angle Control")]
     [Tooltip("Facing angle")]
+    [Range(0.0f, 360.0f)]
     public float facingAngle = 0.0f;
 
     [Header("Tags")]
@@ -55,6 +56,44 @@ public class WallSpray : MonoBehaviour {
     //bullet firing coroutine
     private IEnumerator BulletSprayRoutine()
     {
+        //set time of last spray to now
+        timeLastSprayFired = Time.time;
+
+        //for each wave
+        for (int i = 0; i < numBulletWaves; i++)
+        {
+            //get the distance to set up
+            float distanceToSetup = bulletBaseSetupDistance + (bulletStepDistanceIncrease * i);
+            //get a bullet from the bank
+            GameObject bullet1 = bank.GetSetupStraightBullet();
+
+            //set the bullets position to this pos
+            bullet1.transform.position = transform.position;
+
+            //get rotation 90 degree from facing angle
+            Quaternion alteredRotation = new Quaternion();
+            alteredRotation.eulerAngles = new Vector3(0.0f, facingAngle + 90.0f, 0.0f);
+
+            bullet1.transform.rotation = alteredRotation;
+
+            //setup the bullet
+            bullet1.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, 90.0f, patternBulletSpeed);
+
+            //get a second bullet from the bank
+            GameObject bullet2 = bank.GetSetupStraightBullet();
+
+            //set the bullet's pos to this pos
+            bullet2.transform.position = transform.position;
+
+            //get rotation 270 degree from facing angle
+            alteredRotation = new Quaternion();
+            alteredRotation.eulerAngles = new Vector3(0.0f, facingAngle + 270.0f, 0.0f);
+
+            bullet2.transform.rotation = alteredRotation;
+
+            //setup the bullet
+            bullet2.GetComponent<SetupStraightBullet>().SetupVars(distanceToSetup, bulletSetupTime, bulletSetupTime + bulletStartMoveTimeDelay, 270.0f, patternBulletSpeed);
+        }
 
         yield return new WaitForSecondsRealtime(timeBetweenSprays);
     }

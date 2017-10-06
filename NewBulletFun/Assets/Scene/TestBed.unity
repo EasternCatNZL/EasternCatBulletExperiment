@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 1096942856}
   - component: {fileID: 1096942851}
   - component: {fileID: 1096942853}
+  - component: {fileID: 1096942857}
   m_Layer: 0
   m_Name: BulletTester
   m_TagString: Untagged
@@ -554,15 +555,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1096942850}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cadf34767745854bb3d7068703aae78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenSprays: 5
   timeBetweenWaves: 0.5
-  bulletObject: {fileID: 1445052893969624, guid: e99af29f3f94997458c4589b9cf47879,
-    type: 2}
   numBulletLayers: 2
   numBulletWaves: 3
   bulletBaseSetupDistance: 0.5
@@ -573,6 +572,27 @@ MonoBehaviour:
   patternBulletSpeed: 2
   angleChangePerShot: 20
   rotationDirection: 1
+  bulletBankTag: Bullet Bank
+--- !u!114 &1096942857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1096942850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 682a231459db5c6429ee02b0e1244c65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenSprays: 1.5
+  numBulletWaves: 5
+  bulletBaseSetupDistance: 0.5
+  bulletStepDistanceIncrease: 0.5
+  bulletSetupTime: 0.5
+  bulletStartMoveTimeDelay: 0.2
+  bulletAngleChange: 90
+  patternBulletSpeed: 2
+  facingAngle: 0
   bulletBankTag: Bullet Bank
 --- !u!1 &1121188070
 GameObject:
